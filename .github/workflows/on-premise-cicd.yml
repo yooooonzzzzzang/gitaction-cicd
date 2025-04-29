@@ -19,7 +19,7 @@ jobs:
 
       - name: Check Version Name
         run: |
-          echo "Check Version -> ${{ steps.set-version.outputs.VERSOIN_NAME }}"
+          echo "Check Version -> ${{ steps.set-version.outputs.VERSION_NAME }}"
 
       - name: Checkout Source Code
         uses: actions/checkout@v4
