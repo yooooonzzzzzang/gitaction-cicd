@@ -29,22 +29,33 @@ jobs:
         run: ./gradlew clean test bootJar
 
       - name: docker image build
-        run: docker build -t ${{ sercrets.DOCKERHUB_USER_NAME }}/gitaction-cicd-study .
+        run: docker build -t ${{ secrets.DOCKERHUB_USER_NAME }}/cicd-study .
 
       - name: docker hub login
         uses: docker/login-action@v2
         with:
-          username: ${{ sercrets.DOCKERHUB_USER_NAME }}
-          password: ${{ sercrets.DOCKERHUB_PASSWORD }}
+          username: ${{ secrets.DOCKERHUB_USER_NAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: docker image push
-        run: docker push  ${{ sercrets.DOCKERHUB_USER_NAME }}/gitaction-cicd-study
+        run: docker push ${{ secrets.DOCKERHUB_USER_NAME }}/cicd-study
 
-  run-docker-image-on-ec2:
+
+  run-docker-iamge-on-ec2:
     runs-on: self-hosted
     needs:
       - build
 
     steps:
+      - name: docker pull
+        run: docker pull ${{ secrets.DOCKERHUB_USER_NAME }}/cicd-study
 
+      - name: docker app service container stop
+        run: docker-compose down app
+
+      - name: docker app service container start
+        run: docker-compose up app -d
+
+      - name: delete old docker image
+        run: docker system prune -f
 
