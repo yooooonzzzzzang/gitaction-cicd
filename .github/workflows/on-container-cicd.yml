@@ -49,4 +49,14 @@ jobs:
       - name: docker pull
         run: docker pull  ${{ sercrets.DOCKERHUB_USER_NAME }}/gitaction-cicd
 
+      - name: docker app service container stop
+        run: docker-compose down app
+
+      - name: docker app service container start
+        run: docker-compose up app -d
+
+      - name: delete old docker image
+        run: docker system prune -f
+
+
 
