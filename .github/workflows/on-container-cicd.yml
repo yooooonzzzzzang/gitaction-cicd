@@ -47,7 +47,7 @@ jobs:
 
     steps:
       - name: docker pull
-        run: docker pull  ${{ secrets.DOCKERHUB_USER_NAME }}/gitaction-cicd
+        run: docker pull  ${{ secrets.DOCKERHUB_USER_NAME }}/gitaction-cicd-study
 
       - name: docker app service container stop
         run: docker-compose down app
